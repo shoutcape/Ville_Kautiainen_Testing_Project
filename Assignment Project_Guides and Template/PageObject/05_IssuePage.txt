@@ -1,35 +1,62 @@
 
-#******************** Settings ************************
+******************** Settings ************************
 
 *** Settings ***
+
 Documentation	Issue Test scenario. CRUD Operation: Create, Read, Update, Delete
-
-# TODO: Write Precondition and Postcondition, Tags 
-
-Pre Condition	Tips: Project must be created by the user before 
-Post Condition	
-Tags
+Pre Condition    User logged in and navigated to the project page where issues can be created.
+Post Condition   Log out from GitLab, ensuring a clean state for subsequent tests.
+Tags             Issues, CRUD, GitLab TS-4-Issue Management
 
 #******************* Common Variables ********************
 
 
 *** Variables ***
 
-# NOTE: Please Remove your login credential before uploading Assignments
-
-# TODO: Write Issue creation field variables, Updated name of the issue
-
+ProjectName = ProjectName
+GitLabIssueUrl = https://gitlab.com/[ProjectName]/issues
+IssueTitle = NewIssue
+IssueDescription = This is a new issue for testing purposes.
+UpdatedIssueTitle = UpdatedIssue
+SecondIssueTitle = DuplicateIssue
 
 
 #******************** Test Cases *************************
 
 *** Test Case ***
 
-# TODO: Write Positive Test Cases and Test Process steps
+# Positive Tests
 
-# Positive Test examples are below write test process steps for each below test case
+Create issue
+	Navigate to GitLab Issue Creation Page   GitLabIssueUrl
+	Click 'New Issue'
+	Input Issue Title   IssueTitle
+	Input Issue Description   IssueDescription
+	Submit Issue Creation Form
+	Verify Issue Creation Success
 
-	Create issue,
- 	Update name of issue, 
-	Create second issue with privious updated name
-    Delete first issue
+Update name of issue
+	Navigate to GitLab Issue Page   GitLabIssueUrl
+	Select Issue   IssueTitle
+	Click 'Edit'
+	Change Issue Title to   UpdatedIssueTitle
+	Save Changes
+	Verify Issue Title Update
+
+
+Create second issue with previous updated name
+	Navigate to GitLab Issue Page   GitLabIssueUrl
+	Select Issue   IssueTitle
+	Click 'Edit'
+	Change Issue Title to   UpdatedIssueTitle
+	Save Changes
+	Verify Issue Title Update
+
+
+Delete first issue
+	Navigate to GitLab Issue Page   GitLabIssueUrl
+	Select Issue   IssueTitle
+	Click 'Issue Actions'
+	Click 'Delete Issue'
+	Confirm Issue Deletion
+	Verify Issue Deletion Success

@@ -1,44 +1,81 @@
 
-#******************** Settings ************************
+******************** Settings ************************
 
 *** Settings ***
 
-# TODO: Write Dcocumentation e.g. Project Test scenario. CRUD Operation: Create, Read, Update, Delete
+Documentation	Testing the project creation, update, and deletion functionalities in GitLab.
 
-Documentation	
-
-# TODO: Write Precondition, Postcondition, Tags
-
-Pre Condition	 
-Post Condition	
-Tags
+Pre Condition	Login to GitLab 
+Post Condition	 Logout from GitLab
+Tags	Project, CRUD, GitLab TS-3-Project Creation
 
 #******************* Common Variables ********************
 
 *** Variables ***
 
-# NOTE: Please Remove your login credential before uploading Assignments
+GitLabUrl = https://gitlab.com
+ProjectName = MyNewProject
+TemplateName = RubyOnRails
+UpdatedProjectName = MyUpdatedProject
+DuplicateProjectName = ProjectName
+ 
 
-# TODO: Write Project creation field variables
 
 
-
-#******************** Test Cases *************************
+******************** Test Cases *************************
 
 *** Test Case ***
 
-# TODO: Write Positive and Negative Test Cases and Test Process steps
+# Positive Tests
 
-# Positive Test examples are below write test process steps for each below test case
+Create blank project
+	Navigate to GitLab Project Creation Page
+	Select 'Create blank project'
+	Input Project Name   ProjectName
+	Submit Project Creation Form
+	Verify Project Creation Success
 
-	Create blank project
-	Create template project 
-	Update name of template project
-	Delete template project
-	Valide that message is showing Project 'First project ' was successfully created.
+Create template project
+	Navigate to GitLab Project Creation Page
+	Select 'Create from template'
+	Select template   TemplateName
+	Input Project Name   ProjectName
+	Submit Project Creation Form
+	Verify Project Creation Success
 
-# Negative Test examples are below write test process steps for each below test case
+Update name of template project
+	Navigate to GitLab Projects Page
+	Select ProjectName
+	Select 'Settings'
+	Select 'General'
+	Input Project Name   UpdatedProjectName
+	Select 'Save Changes'
+	Verify Project Update Success
+	
+Delete template project
+	Navigate to GitLab Projects Page
+	Select ProjectName
+	Select 'Settings'
+	Select 'General'
+	Select 'Advanced'
+	Select 'Delete Project'
+	Input Project Name   ProjectName
+	Verify Project Deletion Success
 
-	Create a blank project with the previous same name
+# Negative Tests
 
+Create a blank project with the previous same name
+	Navigate to GitLab Project Creation Page
+	Select 'Create blank project'
+	Input Project Name   DuplicateProjectName
+	Submit project creation form
+	Verify Page Should Contain Project Creation Failure Message
+
+Create a template project with the previous same name
+	Navigate to GitLab Project Creation Page
+	Select 'Create from template'
+	Select template   TemplateName
+	Input Project Name   DuplicateProjectName
+	Submit project creation form
+	Verify Page Should Contain Project Creation Failure Message
 

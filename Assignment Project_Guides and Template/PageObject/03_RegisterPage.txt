@@ -1,51 +1,117 @@
 
-#******************** Settings ************************
+******************** Settings ************************
 
 *** Settings ***
 
-# TODO: Write Documentation e.g. User Registration Test scenario with verification, valid and invalid credentials.
-
 Documentation	Testing the user registration functionality with verification, valid and invalid credentials.
-
-# TODO: Write Precondition, Postcondition, Tags
-
 Pre Condition	Open Browser To Registration Page
 Post Condition	Close All Browsers
-Tags	Registration, TS-2-Registration
+Tags			Registration, TS-2-Registration
 
-#******************* Common Variables ********************
+******************* Common Variables ********************
 
 *** Variables ***
 
-# NOTE: Please Remove your login credential before uploading Assignments
-
-# TODO: Write Registration field variables
-
-LoginUrl = https://gitlab.com/users/sign_up
-ValidUsername=    testikayttaja
-ValidPassword=    Salasana123
-ValidEmail=       testi@example.com
-InvalidUsername=  testi##
-InvalidPassword=  abc
-InvalidEmail=     testi@example
+RegistrationUrl = https://gitlab.com/users/sign_up
+FirstName = Anything
+LastName = Anything
+ValidUsername = exampleuser
+ValidPassword = VerySecret143
+ValidEmail = exampleemail@gmail.com
+InvalidUsername = #Invaliduser@!
+InvalidPassword = 123
+InvalidEmail = invalid@email
 
 
-#******************** Test Cases *************************
+******************** Test Cases *************************
 
-*** Test Case ***
+*** Test Cases ***
 
-# TODO: Write Positive and Negative Test Cases and Test Process steps (Think about possible test cases)
+# Positive Tests
 
-# Positive Test examples are below write test process steps for each below test case
+Register user with valid username and password
+    Navigate To Registration Page   RegistrationUrl
+	Input FirstName   FirstName
+	Input LastName   LastName
+    Input Username   ValidUsername                
+    Input Email   ValidEmail                   
+    Input Password   ValidPassword          
+    Submit Registration Form
+    Verify Registration Success
 
-	Register user with valid username and password 
-	- Remember credentials which you are going to use for whole application testing 
+# Negative Tests
 
-# Negative Test examples keywords are below write test process steps for each below test case 
+Register user with same above username
+	Navigate to Registration Page
+	input same information as above
 
-	Register user with same above username,
-		...empty password,
-		...invalid email,
-		...Without recaptcha,
+Error message Should Be Visible After Invalid Registration With Blank information
+    Navigate To Registration Page   RegistrationUrl
+    Input Username   Empty
+    Input Email   Empty
+    Input Password   Empty
+    Submit Registration Form
 
+Error message Should Be Visible After Invalid Registration With Invalid Email
+	Navigate To Registration Page   RegistrationUrl
+    Input FirstName   FirstName
+    Input LastName   LastName
+    Input Username   ValidUsername
+    Input Email   InvalidEmail
+    Input Password   ValidPassword
+    Submit Registration Form
+
+Error message Should Be Visible After Invalid Registration With Invalid Username
+    Navigate To Registration Page   RegistrationUrl
+    Input FirstName   FirstName
+    Input LastName   LastName
+    Input Username   InvalidUsername
+    Input Email   ValidEmail
+    Input Password   ValidPassword
+    Submit Registration Form
+
+Error message Should Be Visible After Invalid Registration With Invalid Password
+    Navigate To Registration Page   RegistrationUrl
+    Input FirstName   FirstName
+    Input LastName   LastName
+    Input Username   ValidUsername
+    Input Email   ValidEmail
+    Input Password   InvalidPassword
+    Submit Registration Form
+
+Error message Should Be Visible After Invalid Registration With Invalid Username and Password
+    Navigate To Registration Page   RegistrationUrl
+    Input FirstName   FirstName
+    Input LastName   LastName
+    Input Username   InvalidUsername
+    Input Email   ValidEmail
+    Input Password   InvalidPassword
+    Submit Registration Form
+
+Error message Should Be Visible After Invalid Registration With Invalid Username and Email
+    Navigate To Registration Page   RegistrationUrl
+    Input FirstName   FirstName
+    Input LastName   LastName
+    Input Username   InvalidUsername
+    Input Email   InvalidEmail
+    Input Password   ValidPassword
+    Submit Registration Form
+
+Error message Should Be Visible After Invalid Registration With Invalid Password and Email
+    Navigate To Registration Page   RegistrationUrl
+    Input FirstName   FirstName
+    Input LastName   LastName
+    Input Username   ValidUsername
+    Input Email   InvalidEmail
+    Input Password   InvalidPassword
+    Submit Registration Form
+
+Error message Should Be Visible After Invalid Registration With Invalid Username, Password and Email
+    Navigate To Registration Page   RegistrationUrl
+    Input FirstName   FirstName
+    Input LastName   LastName
+    Input Username   InvalidUsername
+    Input Email   InvalidEmail
+    Input Password   InvalidPassword
+    Submit Registration Form
 
